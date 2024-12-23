@@ -43,4 +43,6 @@ pip install pigar
 pip uninstall pigar
 
 pip install "modin[dask]"
+
+pyinstaller main.py --noconsole
 ```
