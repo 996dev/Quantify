@@ -14,7 +14,7 @@ from tool.logger import logger
 
 pd.set_option('display.max_rows', None)  # 设置Pandas显示的行数
 pd.set_option('display.width', None)  # 设置Pandas显示的宽度
-# 纯碱
+
 symbol = "CZCE.MA505"
 
 auth = TqAuth(cfg.tq_auth_user_name, cfg.tq_auth_password)
@@ -27,18 +27,18 @@ elif cfg.tq_kq:
     api = TqApi(TqKq(), auth=auth)
 elif cfg.tq_back_test:
     # 策略回测
-    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(2024, 12, 3)), web_gui=True, auth=auth)
+    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(2025, 1, 12)), web_gui=True, auth=auth)
 else:
     # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 
-#
 quote = api.get_quote(symbol)
 
 k_day = api.get_kline_serial(symbol, Kline.DAILY.value, data_length=15)
 k_m30 = api.get_kline_serial(symbol, Kline.MINUTE30.value, data_length=15)
 k_m15 = api.get_kline_serial(symbol, Kline.MINUTE15.value, data_length=15)
 k_h1 = api.get_kline_serial(symbol, Kline.HOUR1.value, data_length=15)
+k_h2 = api.get_kline_serial(symbol, Kline.HOUR2.value, data_length=15)
 k_m1 = api.get_kline_serial(symbol, Kline.MINUTE1.value, data_length=15)
 
 macd_day = MACD(k_day, 12, 26, 9)
@@ -54,47 +54,43 @@ target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
 
-open_amount = 30000.0
-
-open_position_amount = 10
+open_position_amount = 100
 
 if __name__ == '__main__':
     logger.info(f"开仓数量 {open_position_amount}")
     print(f"开仓数量 {open_position_amount}")
     while True:
         api.wait_update()
-        # upper_limit = quote.upper_limit
-        # lower_limit = quote.lower_limit
-        # price = quote.last_price
+        upper_limit = quote.upper_limit
+        lower_limit = quote.lower_limit
+        last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
-        # if api.is_changing(k_day.iloc[-1], "datetime"):
-        if api.is_changing(k_day.iloc[-1], "datetime"):
+        if api.is_changing(k_h1.iloc[-1], "datetime"):
+            print(f"flast_price={last_price}")
             k_line_day = k_day.iloc[-1]
             print(f"日线 K线起始时刻的最新价：{k_line_day.open} K线结束时刻的最新价：{k_line_day.close}")
             k_line_h1 = k_h1.iloc[-1]
             print(f"1小时线 K线起始时刻的最新价：{k_line_h1.open} K线结束时刻的最新价：{k_line_h1.close}")
             k_line_m30 = k_m30.iloc[-1]
             print(f"30分钟线 K线起始时刻的最新价：{k_line_m30.open} K线结束时刻的最新价：{k_line_m30.close}")
+            k_line_h2 = k_h2.iloc[-1]
 
-            status_day = k_line_status(k_line_day.close, k_line_day.open)
+            status_day = k_line_status(last_price, k_line_day.open)
             print(f"日线状态：{status_day}")
             status_h1 = k_line_status(k_line_h1.close, k_line_h1.open)
             print(f"1小时线状态：{status_h1}")
             status_m30 = k_line_status(k_line_m30.close, k_line_m30.open)
             print(f"30分钟线状态：{status_m30}")
-
-            if status_day == KLineStatus.UPWARD:
-                # 需要线查询是否有持仓的多单，如果有，先平多单
+            # status = k_line_status(last_price, k_line_h2.open)
+            status = status_day
+            if status == KLineStatus.UPWARD:
                 target_pos.set_target_volume(abs(open_position_amount))
                 print(f"{instrument_name} 开多单")
-                # log.info(f"{instrument_name} 开多单")
-            elif status_day == KLineStatus.FELL:
+            elif status == KLineStatus.FELL:
                 target_pos.set_target_volume(-open_position_amount)
                 print(f"{instrument_name} 开空单")
-                # log.info(f"{instrument_name} 开空单")
-            elif status_day == KLineStatus.EQUAL:
+            elif status == KLineStatus.EQUAL:
                 print(f"{instrument_name} 不开单")
 
             log(symbol, account, position, open_position_amount, now, cfg.real_open, instrument_name=instrument_name)
-
