@@ -14,8 +14,8 @@ from tool.logger import logger
 
 pd.set_option('display.max_rows', None)  # 设置Pandas显示的行数
 pd.set_option('display.width', None)  # 设置Pandas显示的宽度
-# 烧碱
-symbol = "CZCE.SH505"
+# 集运欧线
+symbol = "INE.ec2506"
 
 auth = TqAuth(cfg.tq_auth_user_name, cfg.tq_auth_password)
 
@@ -27,7 +27,7 @@ elif cfg.tq_kq:
     api = TqApi(TqKq(), auth=auth)
 elif cfg.tq_back_test:
     # 策略回测
-    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 10, 20), end_dt=date(2025, 2, 10)), web_gui=True, auth=auth)
+    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 10, 3), end_dt=date(2025, 2, 11)), web_gui=True, auth=auth)
 else:
     # 快期模拟
     api = TqApi(TqKq(), auth=auth)
@@ -55,7 +55,7 @@ position = api.get_position(symbol)
 target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
-open_position_amount = 600
+open_position_amount = 100
 
 if __name__ == '__main__':
     logger.info(f"开仓数量 {open_position_amount}")
