@@ -1,5 +1,5 @@
 from datetime import date
-
+import datetime
 import pandas as pd
 from tqsdk import TqApi, TqAuth, TqAccount, TargetPosTask, TqKq, TqBacktest
 from tqsdk.ta import MACD, KDJ
@@ -19,17 +19,14 @@ symbol = "CZCE.MA505"
 
 auth = TqAuth(cfg.tq_auth_user_name, cfg.tq_auth_password)
 
-if cfg.real_open:
-    # 实盘
+if cfg.real_open:  # 实盘
     api = TqApi(TqAccount(cfg.tq_account_broker_id, cfg.tq_account_account_id, cfg.tq_account_password), auth=auth)
-elif cfg.tq_kq:
-    # 快期模拟
+elif cfg.tq_kq:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
-elif cfg.tq_back_test:
-    # 策略回测
-    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(2025, 1, 12)), web_gui=True, auth=auth)
-else:
-    # 快期模拟
+elif cfg.tq_back_test:  # 策略回测
+    now = datetime.datetime.now()
+    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)), web_gui=True, auth=auth)
+else:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 
 quote = api.get_quote(symbol)
@@ -57,7 +54,6 @@ ls = api.query_cont_quotes()
 open_position_amount = 100
 
 if __name__ == '__main__':
-    logger.info(f"开仓数量 {open_position_amount}")
     print(f"开仓数量 {open_position_amount}")
     while True:
         api.wait_update()

@@ -1,5 +1,5 @@
 from datetime import date
-
+import datetime
 import pandas as pd
 from tqsdk import TqApi, TqAuth, TqAccount, TargetPosTask, TqKq, TqBacktest
 from tqsdk.ta import MACD, KDJ
@@ -27,7 +27,8 @@ elif cfg.tq_kq:
     api = TqApi(TqKq(), auth=auth)
 elif cfg.tq_back_test:
     # 策略回测
-    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 10, 20), end_dt=date(2025, 2, 10)), web_gui=True, auth=auth)
+    now = datetime.datetime.now()
+    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)), web_gui=True, auth=auth)
 else:
     # 快期模拟
     api = TqApi(TqKq(), auth=auth)
@@ -58,7 +59,6 @@ ls = api.query_cont_quotes()
 open_position_amount = 600
 
 if __name__ == '__main__':
-    logger.info(f"开仓数量 {open_position_amount}")
     print(f"开仓数量 {open_position_amount}")
     while True:
         api.wait_update()
