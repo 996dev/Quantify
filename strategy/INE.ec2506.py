@@ -51,7 +51,7 @@ position = api.get_position(symbol)
 target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
-open_position_amount = 100
+open_position_amount = 1
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
@@ -62,8 +62,10 @@ if __name__ == '__main__':
         last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
-        if api.is_changing(k_h1.iloc[-1], "datetime"):
+        if api.is_changing(k_m1.iloc[-1], "datetime"):
+            k_line_m1 = k_m1.iloc[-1]
             k_line_day = k_day.iloc[-1]
+            print(f"1分钟 K线起始时刻的最新价：{k_line_m1.open} K线结束时刻的最新价：{k_line_m1.close}")
             print(f"日线 K线起始时刻的最新价：{k_line_day.open} K线结束时刻的最新价：{k_line_day.close}")
             k_line_h1 = k_h1.iloc[-1]
             print(f"1小时线 K线起始时刻的最新价：{k_line_h1.open} K线结束时刻的最新价：{k_line_h1.close}")

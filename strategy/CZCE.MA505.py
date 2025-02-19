@@ -51,7 +51,7 @@ target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
 
-open_position_amount = 100
+open_position_amount = 10
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
