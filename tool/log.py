@@ -10,8 +10,6 @@ def log(symbol, account: Account, position: Position, open_position_amount, now:
     dirs = '../log/'
     if not os.path.exists(dirs):
         os.makedirs(dirs)
-    else:
-        print('log 文件夹存在')
     with open(dirs + symbol + ".txt", "a", encoding='utf-8') as file:
         file.write(f"警告⚠️->：{'实盘' if real_open else '模拟'}\n")
         file.write(f"账户情况# {account}\n")
