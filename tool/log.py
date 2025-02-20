@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 from tqsdk.objs import Account, Position
@@ -6,7 +7,12 @@ from tqsdk.objs import Account, Position
 def log(symbol, account: Account, position: Position, open_position_amount, now: datetime, real_open: bool = None,
         instrument_name: str = None):
     """本地文件写入日志，控制台打印日志"""
-    with open('../log/' + symbol + ".txt", "a", encoding='utf-8') as file:
+    dirs = '../log/'
+    if not os.path.exists(dirs):
+        os.makedirs(dirs)
+    else:
+        print('log 文件夹存在')
+    with open(dirs + symbol + ".txt", "a", encoding='utf-8') as file:
         file.write(f"警告⚠️->：{'实盘' if real_open else '模拟'}\n")
         file.write(f"账户情况# {account}\n")
         file.write(f"账户权益# {account.balance}\n")
