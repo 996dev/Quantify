@@ -15,7 +15,7 @@ from tool.logger import logger
 pd.set_option('display.max_rows', None)  # 设置Pandas显示的行数
 pd.set_option('display.width', None)  # 设置Pandas显示的宽度
 
-symbol = "DCE.m2506"
+symbol = "DCE.m2507"
 
 auth = TqAuth(cfg.tq_auth_user_name, cfg.tq_auth_password)
 
