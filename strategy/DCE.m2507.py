@@ -76,10 +76,10 @@ if __name__ == '__main__':
             print(f"日线状态：{status_day}")
             status_h1 = k_line_status(k_line_h1.close, k_line_h1.open)
             print(f"1小时线状态：{status_h1}")
-            status_m30 = k_line_status(k_line_m30.close, k_line_m30.open)
+            status_m30 = k_line_status(last_price, k_line_m30.open)
             print(f"30分钟线状态：{status_m30}")
             # status = k_line_status(last_price, k_line_h2.open)
-            status = status_day
+            status = status_m30
             if status == KLineStatus.UPWARD:
                 target_pos.set_target_volume(abs(open_position_amount))
                 print(f"{instrument_name} 开多单")
