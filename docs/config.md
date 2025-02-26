@@ -1,13 +1,13 @@
 
 ```ini
 [TQAUTH]
-user_name = 
-password =
+user_name = 天勤账号
+password = 天勤密码
 
 [TQACCOUNT]
 broker_id = H徽商期货
-account_id = 
-password = 
+account_id = 账号
+password = 密码
 
 [REAL]
 open = False
