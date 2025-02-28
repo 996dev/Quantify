@@ -15,7 +15,7 @@ from tool.logger import logger
 pd.set_option('display.max_rows', None)  # 设置Pandas显示的行数
 pd.set_option('display.width', None)  # 设置Pandas显示的宽度
 
-symbol = "CZCE.MA505"
+symbol = "SHFE.rb2505"
 
 auth = TqAuth(cfg.tq_auth_user_name, cfg.tq_auth_password)
 
@@ -25,7 +25,7 @@ elif cfg.tq_kq:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 elif cfg.tq_back_test:  # 策略回测
     now = datetime.datetime.now()
-    api = TqApi(backtest=TqBacktest(start_dt=date(2025, 1, 10), end_dt=date(now.year, now.month, now.day)), web_gui=True, auth=auth)
+    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)), web_gui=True, auth=auth)
 else:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
-        if api.is_changing(k_h1.iloc[-1], "datetime"):
+        if api.is_changing(k_m1.iloc[-1], "datetime"):
             print(f"flast_price={last_price}")
             k_line_day = k_day.iloc[-1]
             print(f"日线 K线起始时刻的最新价：{k_line_day.open} K线结束时刻的最新价：{k_line_day.close}")
@@ -76,10 +76,10 @@ if __name__ == '__main__':
             print(f"日线状态：{status_day}")
             status_h1 = k_line_status(k_line_h1.close, k_line_h1.open)
             print(f"1小时线状态：{status_h1}")
-            status_m30 = k_line_status(k_line_m30.close, k_line_m30.open)
+            status_m30 = k_line_status(last_price, k_line_m30.open)
             print(f"30分钟线状态：{status_m30}")
             # status = k_line_status(last_price, k_line_h2.open)
-            status = status_day
+            status = status_m30
             if status == KLineStatus.UPWARD:
                 target_pos.set_target_volume(abs(open_position_amount))
                 print(f"{instrument_name} 开多单")
