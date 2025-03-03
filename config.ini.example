@@ -13,20 +13,20 @@ tq_kq = False
 tq_back_test = False
 
 [URL]
-feishu_webhook_url = https://open.feishu.cn/open-apis/bot/v2/hook/5e6013ef-8013-4fb5-9164-d05c748d2ee5
-dingding_webhook_url = https://oapi.dingtalk.com/robot/send?access_token=9ebed31335411258f7fc4895d74e6872218cafbe6eed9ad45ae220511ec463ce
-dingding_secret = SECc4a0bc5e0fa4bd8cc562be370d8ed9f0e2b974035602c7df9c6d2d56d0392b55
+feishu_webhook_url = https://open.feishu.cn/open-apis/bot/v2/hook/5e6013ef-801
+dingding_webhook_url = https://oapi.dingtalk.com/robot/send?access_token=9ebed
+dingding_secret = SECc
 
 [SMTP163]
 email_host = smtp.163.com
-email_user = 18257125011@163.com
-email_pass = NDPEREWXARMXEIED
-sender = 18257125011@163.com
-receivers = overwatch@126.com
+email_user = 18@163.com
+email_pass = NDPERD
+sender = 18@163.com
+receivers = o@126.com
 
 [SMTPQQ]
 email_host = smtp.qq.com
-email_user = 1023766685@qq.com
-email_pass = gforqszldrxlbddc
-receivers = overwatch@126.com
+email_user = 1@qq.com
+email_pass = gfor
+receivers = o@126.com
 
