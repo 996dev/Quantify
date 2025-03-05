@@ -54,7 +54,7 @@ target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
 
-open_position_amount = 5
+open_position_amount = 3
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
@@ -65,7 +65,7 @@ if __name__ == '__main__':
         last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
-        if api.is_changing(k_m1.iloc[-1], "datetime"):
+        if api.is_changing(k_s10.iloc[-1], "datetime"):
             print(f"flast_price={last_price}")
             k_line_day = k_day.iloc[-1]
             print(f"日线 K线起始时刻的最新价：{k_line_day.open} K线结束时刻的最新价：{k_line_day.close}")
@@ -82,7 +82,7 @@ if __name__ == '__main__':
             status_m30 = k_line_status(last_price, k_line_m30.open)
             print(f"30分钟线状态：{status_m30}")
             # status = k_line_status(last_price, k_line_h2.open)
-            status = status_m30
+            status = status_day
             if status == KLineStatus.UPWARD:
                 target_pos.set_target_volume(abs(open_position_amount))
                 print(f"{instrument_name} 开多单")

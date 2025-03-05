@@ -38,6 +38,9 @@ k_m15 = api.get_kline_serial(symbol, Kline.MINUTE15.value, data_length=15)
 k_h1 = api.get_kline_serial(symbol, Kline.HOUR1.value, data_length=15)
 k_h2 = api.get_kline_serial(symbol, Kline.HOUR2.value, data_length=15)
 k_m1 = api.get_kline_serial(symbol, Kline.MINUTE1.value, data_length=15)
+k_s10 = api.get_kline_serial(symbol, Kline.SECONDS10.value, data_length=15)
+k_s15 = api.get_kline_serial(symbol, Kline.SECONDS15.value, data_length=15)
+k_s30 = api.get_kline_serial(symbol, Kline.SECONDS30.value, data_length=15)
 
 macd_day = MACD(k_day, 12, 26, 9)
 macd_m30 = MACD(k_m30, 12, 26, 9)
@@ -52,7 +55,7 @@ target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
 
-open_position_amount = 10
+open_position_amount = 3
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
