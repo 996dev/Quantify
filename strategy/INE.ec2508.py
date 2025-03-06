@@ -43,6 +43,7 @@ k_s10 = api.get_kline_serial(symbol, Kline.SECONDS10.value, data_length=15)
 k_s15 = api.get_kline_serial(symbol, Kline.SECONDS15.value, data_length=15)
 k_s30 = api.get_kline_serial(symbol, Kline.SECONDS30.value, data_length=15)
 k_s5 = api.get_kline_serial(symbol, Kline.SECONDS5.value, data_length=15)
+k_s1 = api.get_kline_serial(symbol, Kline.SECONDS1.value, data_length=15)
 
 macd_day = MACD(k_day, 12, 26, 9)
 macd_m30 = MACD(k_m30, 12, 26, 9)

@@ -25,7 +25,8 @@ elif cfg.tq_kq:
     api = TqApi(TqKq(), auth=auth)
 elif cfg.tq_back_test:
     now = datetime.datetime.now()
-    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)), web_gui=True, auth=auth)
+    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)),
+                web_gui=True, auth=auth)
 else:
     api = TqApi(TqKq(), auth=auth)
 
@@ -41,6 +42,8 @@ k_m1 = api.get_kline_serial(symbol, Kline.MINUTE1.value, data_length=15)
 k_s10 = api.get_kline_serial(symbol, Kline.SECONDS10.value, data_length=15)
 k_s15 = api.get_kline_serial(symbol, Kline.SECONDS15.value, data_length=15)
 k_s30 = api.get_kline_serial(symbol, Kline.SECONDS30.value, data_length=15)
+k_s5 = api.get_kline_serial(symbol, Kline.SECONDS5.value, data_length=15)
+k_s1 = api.get_kline_serial(symbol, Kline.SECONDS1.value, data_length=15)
 
 macd_day = MACD(k_day, 12, 26, 9)
 macd_m30 = MACD(k_m30, 12, 26, 9)
@@ -65,7 +68,7 @@ if __name__ == '__main__':
         last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
-        if api.is_changing(k_m1.iloc[-1], "datetime"):
+        if api.is_changing(k_s10.iloc[-1], "datetime"):
             k_line_m1 = k_m1.iloc[-1]
             k_line_day = k_day.iloc[-1]
             print(f"1分钟 K线起始时刻的最新价：{k_line_m1.open} K线结束时刻的最新价：{k_line_m1.close}")
