@@ -55,7 +55,7 @@ target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
 
-open_position_amount = 3
+open_position_amount = 300
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
@@ -66,6 +66,16 @@ if __name__ == '__main__':
         last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
+
+        # print(list(macd["diff"]))
+        # print(list(macd["dea"]))
+        # print(list(macd["bar"]))
+
+        # macd_d = macd_day.iloc[-1]
+        # print(macd_d['diff'])
+        # print(macd_d['dea'])
+        # print(macd_d['bar'])
+
         if api.is_changing(k_s10.iloc[-1], "datetime"):
             print(f"flast_price={last_price}")
             k_line_day = k_day.iloc[-1]
@@ -83,11 +93,14 @@ if __name__ == '__main__':
             status_m30 = k_line_status(last_price, k_line_m30.open)
             print(f"30分钟线状态：{status_m30}")
             # status = k_line_status(last_price, k_line_h2.open)
+            # macd_m30 = macd_day.iloc[-1]
             status = status_day
             if status == KLineStatus.UPWARD:
+                # target_pos.set_target_volume(10)
                 target_pos.set_target_volume(abs(open_position_amount))
                 print(f"{instrument_name} 开多单")
             elif status == KLineStatus.FELL:
+                # target_pos.set_target_volume(-10)
                 target_pos.set_target_volume(-open_position_amount)
                 print(f"{instrument_name} 开空单")
             elif status == KLineStatus.EQUAL:
