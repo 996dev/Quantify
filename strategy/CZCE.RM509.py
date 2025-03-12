@@ -54,9 +54,11 @@ account = api.get_account()
 position = api.get_position(symbol)
 target_pos = TargetPosTask(api, symbol)
 
-ls = api.query_cont_quotes()
 
-open_position_amount = 3
+open_position_amount = 100
+
+# order = api.insert_order(symbol="DCE.m2105", direction="BUY", offset="OPEN", volume=5, limit_price=2750)
+
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
