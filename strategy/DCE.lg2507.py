@@ -26,8 +26,7 @@ elif cfg.tq_kq:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 elif cfg.tq_back_test:  # 策略回测
     now = datetime.datetime.now()
-    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)),
-                web_gui=True, auth=auth)
+    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)), web_gui=True, auth=auth)
 else:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 
@@ -57,7 +56,7 @@ target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
 
-open_position_amount = 3
+open_position_amount = 6
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
