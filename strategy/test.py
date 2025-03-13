@@ -1,7 +1,7 @@
 from datetime import date
 
 import datetime
-
+from tool.direction import Direction, Offset
 
 if __name__ == '__main__':
     print(f"year:{date.year} month:{date.month} day:{date.day}")
@@ -15,3 +15,7 @@ if __name__ == '__main__':
     day = now.day
 
     print(year, month, day)
+
+    print(Offset.OPEN.value)
+
+    print(Offset.CLOSE.value)
