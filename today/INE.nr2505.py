@@ -56,7 +56,7 @@ account = api.get_account()
 position = api.get_position(symbol)
 target_pos = TargetPosTask(api, symbol)
 
-open_position_amount = 6
+open_position_amount = 5
 # 20号胶 开+平 2.93
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
