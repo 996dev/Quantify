@@ -57,13 +57,16 @@ target_pos = TargetPosTask(api, symbol)
 
 open_position_amount = 100
 
-# 止损计数器
-stop_loss_count = 0
-# 最大止损次数
-max_stop_loss_count = 3
+# order = api.insert_order(symbol="DCE.m2105", direction="BUY", offset="OPEN", volume=5, limit_price=2750)
 
+"""
+60分钟k 线是上涨
+macd 在底部一定的范围
+kdj 也是在一定的范
+"""
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
+
     while True:
         api.wait_update()
         upper_limit = quote.upper_limit
@@ -90,25 +93,12 @@ if __name__ == '__main__':
             # status = k_line_status(last_price, k_line_h2.open)
             status = status_day
             if status == KLineStatus.UPWARD:
-                # 检查是否达到最大止损次数
-                if stop_loss_count >= max_stop_loss_count:
-                    target_pos.set_target_volume(0)
-                    print(f"达到最大止损次数，退出策略 {stop_loss_count}")
-                    break
                 target_pos.set_target_volume(abs(open_position_amount))
                 print(f"{instrument_name} 开多单")
-                stop_loss_count = stop_loss_count + 1
             elif status == KLineStatus.FELL:
-                # 检查是否达到最大止损次数
-                if stop_loss_count >= max_stop_loss_count:
-                    target_pos.set_target_volume(0)
-                    print(f"达到最大止损次数，退出策略 {stop_loss_count}")
-                    break
                 target_pos.set_target_volume(-open_position_amount)
                 print(f"{instrument_name} 开空单")
-                stop_loss_count = stop_loss_count + 1
             elif status == KLineStatus.EQUAL:
                 print(f"{instrument_name} 不开单")
 
             log(symbol, account, position, open_position_amount, now, cfg.real_open, instrument_name=instrument_name)
-    # api.close()

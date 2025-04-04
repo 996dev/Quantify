@@ -4,3 +4,4 @@ Jinja2
 PySide6
 pigar
 modin
+openpyxl

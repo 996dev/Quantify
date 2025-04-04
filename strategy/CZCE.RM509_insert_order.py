@@ -53,7 +53,7 @@ kdj_h1 = KDJ(k_h1, 9, 3, 3)
 
 account = api.get_account()
 position = api.get_position(symbol)
-target_pos = TargetPosTask(api, symbol)
+# target_pos = TargetPosTask(api, symbol)
 
 open_position_amount = 100
 
@@ -66,8 +66,8 @@ if __name__ == '__main__':
         last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
-        if api.is_changing(k_s10.iloc[-1], "datetime"):
-            print(f"flast_price={last_price}")
+        if api.is_changing(k_h1.iloc[-1], "datetime"):
+            print(f"last_price={last_price}")
             k_line_day = k_day.iloc[-1]
             print(f"日线 K线起始时刻的最新价：{k_line_day.open} K线结束时刻的最新价：{k_line_day.close}")
             k_line_h1 = k_h1.iloc[-1]
@@ -94,19 +94,21 @@ if __name__ == '__main__':
                     order = api.insert_order(symbol, direction=Direction.BUY.value, offset=Offset.CLOSE.value, volume=position.pos_short)
                     print(f"已下单平空，数量：{position.pos_short}手")
                     # 等待订单成交
-                    # while order.status != "FINISHED":
-                        # api.wait_update()
+                    while order.status != "FINISHED":
+                        api.wait_update()
+                        break
                     print("平空单已成交")
-                    api.wait_update()
+                    # api.wait_update()
                 else:
                     print("当前没有空头持仓，无需平仓")
                     print("执行开多单操作")
                     order = api.insert_order(symbol=symbol, direction=Direction.BUY.value, offset=Offset.OPEN.value, volume=open_position_amount)
                     print("已下单开多")
                     # 等待订单成交
-                    # while order.status != "FINISHED":
-                    #     api.wait_update()
-                    api.wait_update()
+                    while order.status != "FINISHED":
+                        api.wait_update()
+                        break
+                    # api.wait_update()
 
             elif status == KLineStatus.FELL:
                 # target_pos.set_target_volume(-open_position_amount)
@@ -117,21 +119,23 @@ if __name__ == '__main__':
                     order = api.insert_order(symbol, direction=Direction.SELL.value, offset=Offset.CLOSE.value, volume=position.pos_long)
                     print(f"已下单平多，数量：{position.pos_long}手")
 
-                    api.wait_update()
+                    # api.wait_update()
                     # 等待订单成交
-                    # while order.status != "FINISHED":
-                    #     api.wait_update()
+                    while order.status != "FINISHED":
+                        api.wait_update()
+                        break
 
                     print("平多单已成交")
                 else:
                     print("当前没有多头持仓，无需平仓")
                     print("执行开空单操作")
                     order = api.insert_order(symbol, direction=Direction.SELL.value, offset=Offset.OPEN.value, volume=open_position_amount)
-                    print("已下单开空")
-                    api.wait_update()
+                    print(f"已下单开空{order}")
+                    # api.wait_update()
                     # 等待订单成交
-                    # while order.status != "FINISHED":
-                    #     api.wait_update()
+                    while order.status != "FINISHED":
+                        api.wait_update()
+                        break
 
             elif status == KLineStatus.EQUAL:
                 print(f"{instrument_name} 不开单")
