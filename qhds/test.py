@@ -67,7 +67,7 @@ if __name__ == '__main__':
     now = datetime.datetime.now()
     tradeDate = now.strftime("%Y-%m-%d")
     print(tradeDate)  # 输出：2021-05-17 15:30:45
-    # tradeDate = '2025-04-02'
+    tradeDate = '2025-04-07'
     for search in list_search:
         try:
             test(search['name'], tradeDate, search['groupType'], search['companyName'], sort=search['sort'])

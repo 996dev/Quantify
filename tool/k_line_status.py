@@ -49,3 +49,47 @@ def k_line_status(close, open) -> KLineStatus:
    * close_oi: 27355 (K线结束时刻的持仓量)
 
    """
+
+
+class MacdStatus(Enum):
+    """
+    UPWARD：上涨
+    FELL：下跌
+    EQUAL：相等
+    """
+    UPWARD = 1
+    FELL = 2
+    EQUAL = 3
+
+
+def macd_status(macd_data) -> MacdStatus:
+    """
+    在判断 MACD 交叉时，通常需要关注以下几个关键点：
+    MACD 的组成：
+        DIFF 线：短期 EMA（通常为 12 日）与长期 EMA（通常为 26 日）的差值。
+        DEA 线：DIFF 线的平滑线（通常为 9 日 EMA）。
+        MACD 柱：DIFF 与 DEA 的差值。
+    交叉类型：
+        金叉（底部交叉）：DIFF 线从下向上穿越 DEA 线，通常视为买入信号。
+        死叉（顶部交叉）：DIFF 线从上向下穿越 DEA 线，通常视为卖出信号。
+    判断逻辑：
+        通过比较当前 K 线的 DIFF 和 DEA 值与前一 K 线的 DIFF 和 DEA 值，可以判断是否发生交叉。
+    例如：
+        金叉条件：当前DIFF > 当前DEA 且 前一根DIFF <= 前一根DEA。
+        死叉条件：当前DIFF < 当前DEA 且 前一根DIFF >= 前一根DEA。
+    :param macd_data:
+    :return:
+    """
+    current_diff = macd_data['diff'].iloc[-1]
+    current_dea = macd_data['dea'].iloc[-1]
+    prev_diff = macd_data['diff'].iloc[-2]
+    prev_dea = macd_data['dea'].iloc[-2]
+
+    # 金叉判断
+    if current_diff > current_dea and prev_diff <= prev_dea:
+        return "金叉（买入信号）"
+    # 死叉判断
+    elif current_diff < current_dea and prev_diff >= prev_dea:
+        return "死叉（卖出信号）"
+    else:
+        return "无交叉"

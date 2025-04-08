@@ -43,6 +43,11 @@ pip install pigar
 pip uninstall pigar
 
 pip install "modin[dask]"
+pip install openpyxl
+pip install pyecharts
 
 pyinstaller main.py --noconsole
 ```
+
+
+export YT_DLP_HOME=/usr/local/bin/yt-dlp
