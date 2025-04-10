@@ -17,6 +17,7 @@ class Kline(Enum):
     MINUTE1 = 60
     MINUTE3 = 180
     MINUTE5 = 300
+    MINUTE10 = 600
     MINUTE15 = 900
     MINUTE30 = 1800
     HOUR1 = 3600
