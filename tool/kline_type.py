@@ -22,4 +22,5 @@ class Kline(Enum):
     MINUTE30 = 1800
     HOUR1 = 3600
     HOUR2 = 7200
+    HOUR4 = 14400
     DAILY = 86400

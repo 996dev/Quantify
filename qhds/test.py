@@ -40,7 +40,8 @@ list_name = ['岳晓辉', '可胜投资', '蜗牛也是牛', '得鹿梦鱼', '�
 list_result = []
 list_search = [
     {'name': '可胜投资', 'companyName': '东航', 'groupType': 1, 'sort': 1},
-    {'name': '蜗牛也是牛', 'companyName': '徽商期货', 'groupType': 1, 'sort': 2},
+    {'name': '蜗牛也是牛', 'companyName': '广州金控期货', 'groupType': 2, 'sort': 2},
+    # {'name': '蜗牛也牛', 'companyName': '国信期货', 'groupType': 2, 'sort': 2},
     {'name': '得鹿梦鱼', 'companyName': '宏源', 'groupType': 1, 'sort': 3},
     {'name': '半部经书', 'companyName': '宏源', 'groupType': 1, 'sort': 4},
     {'name': '云中仙', 'companyName': '国元', 'groupType': 2, 'sort': 5},
@@ -67,7 +68,7 @@ if __name__ == '__main__':
     now = datetime.datetime.now()
     tradeDate = now.strftime("%Y-%m-%d")
     print(tradeDate)  # 输出：2021-05-17 15:30:45
-    # tradeDate = '2025-04-07'
+    # tradeDate = '2025-04-19'
     for search in list_search:
         try:
             test(search['name'], tradeDate, search['groupType'], search['companyName'], sort=search['sort'])

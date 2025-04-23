@@ -4,6 +4,15 @@ from datetime import datetime
 from tqsdk.objs import Account, Position
 
 
+def log_info(info):
+    dirs = '../log1/'
+    if not os.path.exists(dirs):
+        os.makedirs(dirs)
+    with open(dirs + "log" + ".txt", "a", encoding='utf-8') as file:
+        file.write(f"{info}\n")
+        file.write(f"{'-' * 40}\n")
+
+
 def log(symbol, account: Account, position: Position, open_position_amount, now: datetime, real_open: bool = None,
         instrument_name: str = None):
     """本地文件写入日志，控制台打印日志"""
