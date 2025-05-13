@@ -3,6 +3,9 @@ import requests
 import time
 import pandas as pd
 import datetime
+from wxauto import WeChat
+
+wx = WeChat()
 
 
 def test(playerNickName, tradeDate, groupType, companyName, sort):
@@ -35,7 +38,8 @@ def test(playerNickName, tradeDate, groupType, companyName, sort):
             # test(playerNickName, tradeDate, 2)
 
 
-list_name = ['岳晓辉', '可胜投资', '蜗牛也是牛', '得鹿梦鱼', '半部经书', '云中仙', '陈凯强', '猎二', '蘑菇', '杀庄侠', '大道至简', '和鸣', '秋秋一号', '乐斗期', '工画师',
+list_name = ['岳晓辉', '可胜投资', '蜗牛也是牛', '得鹿梦鱼', '半部经书', '云中仙', '陈凯强', '猎二', '蘑菇', '杀庄侠',
+             '大道至简', '和鸣', '秋秋一号', '乐斗期', '工画师',
              '郑智元', '一瓢够了', '胜勇', '徐成明', '无为', '抱朴守中', '等待请等待', '谛泽铭']
 list_result = []
 list_search = [
@@ -102,4 +106,12 @@ if __name__ == '__main__':
         list_new.append(n)
         # 转换为DataFrame并保存
     df = pd.DataFrame(list_new)
-    df.to_excel(tradeDate + '-排名信息.xlsx', index=False)
+    file_name = tradeDate + '-排名信息.xlsx'
+    df.to_excel(file_name, index=False)
+
+    files = [
+        'C:/Users/Atlantis/Desktop/Quantify/qhds/' + file_name,
+    ]
+    who = '俱乐部第一届期货大赛(公正客观)'
+    wx.SendFiles(filepath=files, who=who)  # 向`文件传输助手`发送上述三个文件
+    wx.SendMsg('测试群发送文件', who=who)
