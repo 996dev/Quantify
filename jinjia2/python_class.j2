@@ -1,0 +1,18 @@
+# {{ class_name }}.py
+class {{ class_name }}:
+    """{{ docstring }}"""
+
+    def __init__(self{% if args %}, {{ args|join(', ') }}{% endif %}):
+        {% for arg in args -%}
+        self.{{ arg }} = {{ arg }}
+        {% endfor %}
+
+    {% for method in methods -%}
+    def {{ method.name }}(self{% if method.args %}, {{ method.args|join(', ') }}{% endif %}):
+        """{{ method.doc }}"""
+        {% if method.return_type -%}
+        return {{ method.default_return }}
+        {% else -%}
+        pass
+        {% endif %}
+    {% endfor %}

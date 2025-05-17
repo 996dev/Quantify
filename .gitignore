@@ -169,3 +169,5 @@ log
 *.db
 *.json
 *.xlsx
+
+log1

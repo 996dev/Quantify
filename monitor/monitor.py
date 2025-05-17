@@ -69,7 +69,7 @@ if __name__ == '__main__':
     log_info("开始了")
     while True:
         api.wait_update()
-        if api.is_changing(k_m15.iloc[-1], "datetime"):
+        if api.is_changing(k_s5.iloc[-1], "datetime"):
             log_info(quote_list)
             log_info(k_h4)
             print(f"{quote_list}")
