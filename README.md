@@ -45,7 +45,7 @@ pip uninstall pigar
 pip install "modin[dask]"
 pip install openpyxl
 pip install pyecharts
-
+pip install wxauto
 pyinstaller main.py --noconsole
 ```
 
