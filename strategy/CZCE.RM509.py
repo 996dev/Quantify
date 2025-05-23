@@ -15,7 +15,7 @@ from tool.logger import logger
 pd.set_option('display.max_rows', None)  # 设置Pandas显示的行数
 pd.set_option('display.width', None)  # 设置Pandas显示的宽度
 
-# 菜粕
+# 豆一
 symbol = "CZCE.RM509"
 
 auth = TqAuth(cfg.tq_auth_user_name, cfg.tq_auth_password)
@@ -26,7 +26,8 @@ elif cfg.tq_kq:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 elif cfg.tq_back_test:  # 策略回测
     now = datetime.datetime.now()
-    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)), web_gui=True, auth=auth)
+    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)),
+                web_gui=True, auth=auth)
 else:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 
@@ -38,7 +39,6 @@ k_m15 = api.get_kline_serial(symbol, Kline.MINUTE15.value, data_length=15)
 k_h1 = api.get_kline_serial(symbol, Kline.HOUR1.value, data_length=15)
 k_h2 = api.get_kline_serial(symbol, Kline.HOUR2.value, data_length=15)
 k_m1 = api.get_kline_serial(symbol, Kline.MINUTE1.value, data_length=15)
-k_s5 = api.get_kline_serial(symbol, Kline.SECONDS5.value, data_length=15)
 k_s10 = api.get_kline_serial(symbol, Kline.SECONDS10.value, data_length=15)
 k_s15 = api.get_kline_serial(symbol, Kline.SECONDS15.value, data_length=15)
 k_s30 = api.get_kline_serial(symbol, Kline.SECONDS30.value, data_length=15)
@@ -54,13 +54,9 @@ account = api.get_account()
 position = api.get_position(symbol)
 target_pos = TargetPosTask(api, symbol)
 
+ls = api.query_cont_quotes()
 
-open_position_amount = 100
-
-# 止损计数器
-stop_loss_count = 0
-# 最大止损次数
-max_stop_loss_count = 3
+open_position_amount = 3
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
@@ -85,30 +81,17 @@ if __name__ == '__main__':
             print(f"日线状态：{status_day}")
             status_h1 = k_line_status(k_line_h1.close, k_line_h1.open)
             print(f"1小时线状态：{status_h1}")
-            status_m30 = k_line_status(k_line_m30.close, k_line_m30.open)
+            status_m30 = k_line_status(last_price, k_line_m30.open)
             print(f"30分钟线状态：{status_m30}")
             # status = k_line_status(last_price, k_line_h2.open)
             status = status_day
             if status == KLineStatus.UPWARD:
-                # 检查是否达到最大止损次数
-                if stop_loss_count >= max_stop_loss_count:
-                    target_pos.set_target_volume(0)
-                    print(f"达到最大止损次数，退出策略 {stop_loss_count}")
-                    break
                 target_pos.set_target_volume(abs(open_position_amount))
                 print(f"{instrument_name} 开多单")
-                stop_loss_count = stop_loss_count + 1
             elif status == KLineStatus.FELL:
-                # 检查是否达到最大止损次数
-                if stop_loss_count >= max_stop_loss_count:
-                    target_pos.set_target_volume(0)
-                    print(f"达到最大止损次数，退出策略 {stop_loss_count}")
-                    break
                 target_pos.set_target_volume(-open_position_amount)
                 print(f"{instrument_name} 开空单")
-                stop_loss_count = stop_loss_count + 1
             elif status == KLineStatus.EQUAL:
                 print(f"{instrument_name} 不开单")
 
             log(symbol, account, position, open_position_amount, now, cfg.real_open, instrument_name=instrument_name)
-    # api.close()

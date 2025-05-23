@@ -3,7 +3,7 @@ from jinja2 import Environment, FileSystemLoader
 
 # 获取模板
 env = Environment(loader=FileSystemLoader("./"))
-template = env.get_template("temp")
+template = env.get_template("jinjia2_strategy.j2")
 
 # 删除已有的生成文件
 # for f in os.listdir("./output"):
@@ -53,10 +53,3 @@ for i in 广州期货交易所:
         os.mkdir('./output')
     with open("./output/%s.py" % i, 'w', encoding='utf-8') as out:
         out.write(output)
-
-# from jinja2 import Environment, FileSystemLoader
-#
-# env = Environment(loader = FileSystemLoader("./"))
-# template = env.get_template("test.j2")
-#
-# content = template.render(name='liuhao', age='18', country='China')

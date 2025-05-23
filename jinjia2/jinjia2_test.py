@@ -1,11 +1,16 @@
+import os
+
 from jinja2 import Environment, FileSystemLoader
 
-env = Environment(
-    loader=FileSystemLoader("templates"),
-    trim_blocks=True,  # 自动去除模板块的换行
-    lstrip_blocks=True  # 自动去除模板块的左空格
-)
+# env = Environment(
+#     loader=FileSystemLoader("./templates"),
+#     trim_blocks=True,  # 自动去除模板块的换行
+#     lstrip_blocks=True  # 自动去除模板块的左空格
+# )
+#
+# template = env.get_template("./python_class.j2")
 
+env = Environment(loader=FileSystemLoader("./"))
 template = env.get_template("python_class.j2")
 
 data = {
@@ -31,5 +36,8 @@ data = {
 
 output = template.render(data)
 print(output)
-
-
+if not os.path.exists('./output_test'):
+    os.mkdir('./output_test')
+# with open("./output/%s.py" % i, 'w', encoding='utf-8') as out:
+with open("./output_test/User.py", 'w', encoding='utf-8') as out:
+    out.write(output)
