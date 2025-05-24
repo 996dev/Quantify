@@ -5,7 +5,7 @@ from tqsdk.objs import Account, Position
 
 
 def log_info(info):
-    dirs = '../log1/'
+    dirs = '../log_info/'
     if not os.path.exists(dirs):
         os.makedirs(dirs)
     with open(dirs + "log" + ".txt", "a", encoding='utf-8') as file:
