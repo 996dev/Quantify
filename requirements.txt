@@ -7,3 +7,4 @@ modin
 openpyxl
 pyecharts
 iniconfig
+pyqlib

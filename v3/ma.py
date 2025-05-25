@@ -15,7 +15,7 @@ from tool.logger import logger
 pd.set_option('display.max_rows', None)  # 设置Pandas显示的行数
 pd.set_option('display.width', None)  # 设置Pandas显示的宽度
 
-symbol = "DCE.m2505"
+symbol = "SHFE.ao2509"
 
 auth = TqAuth(cfg.tq_auth_user_name, cfg.tq_auth_password)
 
@@ -62,41 +62,40 @@ if __name__ == '__main__':
         if api.is_changing(k_s10.iloc[-1], "datetime"):
             klines = k_m10
 
-            rsi = RSI(klines, 60)
-            ma10 = MA(klines, 10)
-            ma20 = MA(klines, 20)
-            crossup(ma10, ma20)
-            print(list(ma10["ma"]))
-            # print(list(rsi["rsi"]))
-            # # 计算MACD指标
-            #
-            # # print(list(macd_m1['diff']))
-            # # print(list(macd_m1['dea']))
-            # # print(list(macd_m1['bar']))
-            #
-            # # 获取当前价格
-            # # current_price = klines.close.iloc[-1]
-            # # print(quote)
-            #
-            # # 获取入场前的最低点（做多止损）或最高点（做空止损）
-            # stop_loss_long = klines.low.iloc[-10:].min()  # 最近10根K线的最低点
-            # stop_loss_short = klines.high.iloc[-10:].max()  # 最近10根K线的最高点
-            # dif = macd_m1['diff']
-            # dea = macd_m1['dea']
-            # # print(f"crossup# {list(crossup(dif, dea))}")
-            # # print(f"crossdown# {list(crossdown(dif, dea))}")
-            # # 做多条件：MACD金叉
-            # jx = crossup(dif, dea).iloc[-1]
-            # sx = crossdown(dif, dea).iloc[-1]
-            # print(f"金叉：{jx} jx==1:{jx == 1} ### 死叉：{sx} sx==1:{sx == 1}")
-            # if crossup(dif, dea).iloc[-1] == 1:
-            #     target_pos.set_target_volume(1)  # 开多仓
-            #     print(f"做多信号触发，价格：{quote.last_price}，止损点：{stop_loss_long}，止盈点：{stop_loss_long * 2}")
-            #
-            # # 做空条件：MACD死叉
-            # elif crossdown(dif, dea).iloc[-1] == 1:
-            #     target_pos.set_target_volume(-1)  # 开空仓
-            #     print(f"做空信号触发，价格：{quote.last_price}，止损点：{stop_loss_short}，止盈点：{stop_loss_short * 2}")
+            # rsi = RSI(klines, 60)
+            # ma10 = MA(klines, 10)
+            # ma20 = MA(klines, 20)
+            # crossup(ma10, ma20)
+            # print(list(ma10["ma"]))
 
-            # 平仓条件（可选：根据止损止盈逻辑）
-        # 这里可以根据实际需求添加平仓逻辑
+            # 获取5日、20日均线
+            ma5 = MA(klines, 5)
+            ma20 = MA(klines, 20)
+            print(f"{ma5}")
+            # print(f"{ma20}")
+
+            ma5_first = ma5.iloc[-1]
+            ma5_second = ma5.iloc[-2]
+            ma20_first = ma20.iloc[-1]
+            ma20_second = ma20.iloc[-2]
+
+            # print(f"ma5_first：{ma5_first} # ma5_second：{ma5_second}")
+            # ma5_first：ma 3134.8 Name: 199, dtype: float64  # ma5_second：ma 3134.8 Name: 198, dtype: float64
+            # print(f"ma20_first：{ma20_first} # ma20_second：{ma20_second}")
+            # ma20_first：ma 3145.5 Name: 199, dtype: float64  # ma20_second：ma 3148.6 Name: 198, dtype: float64
+
+
+            # 检测交叉信号
+            # golden_cross = crossup(ma5.iloc[-1], ma20.iloc[-1])  # 金叉信号
+            # death_cross = crossdown(ma5.iloc[-1], ma20.iloc[-1])  # 死叉信号
+            #
+            # # 交易信号执行
+            # if golden_cross.iloc[-1]:
+            #     print("金叉出现，开多仓")
+            #     # target_pos.set_target_volume(3)
+            # elif death_cross.iloc[-1]:
+            #     print("死叉出现，开空仓")
+            #     # target_pos.set_target_volume(-3)
+            # else:
+            #     print(f"不开仓 golden_cross {golden_cross}")
+            #     print(f"不开仓 death_cross {death_cross}")
