@@ -51,3 +51,30 @@ pyinstaller main.py --noconsole
 
 
 export YT_DLP_HOME=/usr/local/bin/yt-dlp
+
+
+## 无法 sh 脚本启动问题
+### 1. 编写 setup.py
+```py
+from setuptools import setup, find_packages
+
+setup(
+    name="quantify-tool",      # 包名称（pip install 时用）
+    version="0.1",             # 版本号
+    packages=find_packages(),  # 自动发现所有包（包含 tool/）
+    install_requires=[         # 依赖的其他包（可选）
+        # "numpy>=1.20.0",
+        # "pandas>=1.3.0",
+    ],
+)
+```
+
+### 2. 以可编辑模式安装包
+```bash
+pip install -e .
+```
+
+### 验证
+```Bash
+pip list | grep quantify
+```
