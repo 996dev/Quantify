@@ -1,3 +1,4 @@
+chcp 65001
 @echo off
 setlocal enabledelayedexpansion
 
@@ -10,14 +11,15 @@ echo 日志将保存到: %LOG_DIR%
 for /r %%f in (*.py) do (
     :: 提取不带扩展名的文件名作为日志名
     set "script_name=%%~nf"
-    set "log_file=%LOG_DIR%\!script_name!_!date:~0,4!!date:~5,2!!date:~8,2!_!time:~0,2!!time:~3,2!!time:~6,2!.log"
+    set "log_file=%LOG_DIR%\!script_name!.log"
 
     :: 显示执行信息
     echo [%time%] 正在执行: %%f
     echo [%time%] 日志文件: !log_file!
 
     :: 执行Python脚本并记录日志（追加模式）
-    python "%%f" >> "!log_file!" 2>&1
+    :: 2. 运行 Python 脚本（此时直接使用 python 即可，因为环境已激活）
+    "C:\Users\Atlantis\Desktop\Quantify\.venv\Scripts\python.exe" "%%f" >> "!log_file!" 2>&1
 
     :: 检查执行状态
     if !errorlevel! neq 0 (
