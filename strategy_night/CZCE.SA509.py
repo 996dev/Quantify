@@ -67,7 +67,7 @@ if __name__ == '__main__':
         last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
-        if api.is_changing(k_s10.iloc[-1], "datetime"):
+        if api.is_changing(k_m1.iloc[-1], "datetime"):
             print(f"flast_price={last_price}")
             k_line_day = k_day.iloc[-1]
             print(f"日线 K线起始时刻的最新价：{k_line_day.open} K线结束时刻的最新价：{k_line_day.close}")

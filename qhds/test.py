@@ -38,9 +38,6 @@ def test(playerNickName, tradeDate, groupType, companyName, sort):
             # test(playerNickName, tradeDate, 2)
 
 
-list_name = ['岳晓辉', '可胜投资', '蜗牛也是牛', '得鹿梦鱼', '半部经书', '云中仙', '陈凯强', '猎二', '蘑菇', '杀庄侠',
-             '大道至简', '和鸣', '秋秋一号', '乐斗期', '工画师',
-             '郑智元', '一瓢够了', '胜勇', '徐成明', '无为', '抱朴守中', '等待请等待', '谛泽铭']
 list_result = []
 list_search = [
     {'name': '中场休息中', 'companyName': '东航', 'groupType': 1, 'sort': 1},

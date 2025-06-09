@@ -26,7 +26,7 @@ elif cfg.tq_kq:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 elif cfg.tq_back_test:  # 策略回测
     now = datetime.datetime.now()
-    api = TqApi(backtest=TqBacktest(start_dt=date(2024, 8, 20), end_dt=date(now.year, now.month, now.day)),
+    api = TqApi(backtest=TqBacktest(start_dt=date(2025, 5, 1), end_dt=date(now.year, now.month, now.day)),
                 web_gui=True, auth=auth)
 else:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
@@ -56,7 +56,7 @@ target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
 
-open_position_amount = 3
+open_position_amount = 10
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
@@ -67,7 +67,7 @@ if __name__ == '__main__':
         last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
-        if api.is_changing(k_s10.iloc[-1], "datetime"):
+        if api.is_changing(k_m1.iloc[-1], "datetime"):
             print(f"flast_price={last_price}")
             k_line_day = k_day.iloc[-1]
             print(f"日线 K线起始时刻的最新价：{k_line_day.open} K线结束时刻的最新价：{k_line_day.close}")
@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
             status_day = k_line_status(last_price, k_line_day.open)
             print(f"日线状态：{status_day}")
-            status_h1 = k_line_status(k_line_h1.close, k_line_h1.open)
+            status_h1 = k_line_status(last_price, k_line_h1.open)
             print(f"1小时线状态：{status_h1}")
             status_m30 = k_line_status(last_price, k_line_m30.open)
             print(f"30分钟线状态：{status_m30}")
