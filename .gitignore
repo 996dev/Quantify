@@ -171,3 +171,7 @@ log
 *.xlsx
 
 log1
+core
+core_strategy
+core_qlib
+core_risk
