@@ -16,7 +16,7 @@ pd.set_option('display.max_rows', None)  # 设置Pandas显示的行数
 pd.set_option('display.width', None)  # 设置Pandas显示的宽度
 
 # 豆一
-symbol = "CZCE.SA409"
+symbol = "CZCE.SA509"
 
 auth = TqAuth(cfg.tq_auth_user_name, cfg.tq_auth_password)
 
@@ -56,7 +56,7 @@ target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
 
-open_position_amount = 100
+open_position_amount = 1
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")

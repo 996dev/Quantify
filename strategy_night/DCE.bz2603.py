@@ -15,8 +15,8 @@ from tool.logger import logger
 pd.set_option('display.max_rows', None)  # 设置Pandas显示的行数
 pd.set_option('display.width', None)  # 设置Pandas显示的宽度
 
-# 豆一
-symbol = "SHFE.pb2507"
+# 纯苯
+symbol = "DCE.bz2603"
 
 auth = TqAuth(cfg.tq_auth_user_name, cfg.tq_auth_password)
 
@@ -39,6 +39,8 @@ k_m15 = api.get_kline_serial(symbol, Kline.MINUTE15.value, data_length=15)
 k_h1 = api.get_kline_serial(symbol, Kline.HOUR1.value, data_length=15)
 k_h2 = api.get_kline_serial(symbol, Kline.HOUR2.value, data_length=15)
 k_m1 = api.get_kline_serial(symbol, Kline.MINUTE1.value, data_length=15)
+k_s1 = api.get_kline_serial(symbol, Kline.SECONDS1.value, data_length=15)
+k_s5 = api.get_kline_serial(symbol, Kline.SECONDS5.value, data_length=15)
 k_s10 = api.get_kline_serial(symbol, Kline.SECONDS10.value, data_length=15)
 k_s15 = api.get_kline_serial(symbol, Kline.SECONDS15.value, data_length=15)
 k_s30 = api.get_kline_serial(symbol, Kline.SECONDS30.value, data_length=15)
@@ -56,7 +58,7 @@ target_pos = TargetPosTask(api, symbol)
 
 ls = api.query_cont_quotes()
 
-open_position_amount = 3
+open_position_amount = 1
 
 if __name__ == '__main__':
     print(f"开仓数量 {open_position_amount}")
@@ -67,7 +69,7 @@ if __name__ == '__main__':
         last_price = quote.last_price
         instrument_name = quote.instrument_name
         now = now_time(quote)
-        if api.is_changing(k_s10.iloc[-1], "datetime"):
+        if api.is_changing(k_m1.iloc[-1], "datetime"):
             print(f"flast_price={last_price}")
             k_line_day = k_day.iloc[-1]
             print(f"日线 K线起始时刻的最新价：{k_line_day.open} K线结束时刻的最新价：{k_line_day.close}")

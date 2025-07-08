@@ -20,7 +20,7 @@ elif cfg.tq_kq:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
 elif cfg.tq_back_test:  # 策略回测
     now = datetime.datetime.now()
-    api = TqApi(backtest=TqBacktest(start_dt=date(2025, 1, 20), end_dt=date(now.year, now.month, now.day)),
+    api = TqApi(backtest=TqBacktest(start_dt=date(2025, 6, 20), end_dt=date(now.year, now.month, now.day)),
                 web_gui=True, auth=auth)
 else:  # 快期模拟
     api = TqApi(TqKq(), auth=auth)
